@@ -68,7 +68,7 @@ public class StopPointLineEventController
             });
             _ = await _dbContext.SaveChangesAsync();
 
-            return new OkObjectResult(addResult);
+            return new OkObjectResult(addResult.Entity);
         }
         catch (Exception e)
         {
