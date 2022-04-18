@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using PublicTransportAPI.Data;
-using PublicTransportAPI.Data.DTOs;
 using PublicTransportAPI.Data.Models;
 
 namespace PublicTransportAPI.Controllers;
@@ -40,6 +39,35 @@ public class LineController
         }
 
         return new BadRequestObjectResult("Could not add line. Checks logs.");
-    } 
-    
+    }
+
+    [HttpDelete]
+    public async Task<ActionResult> Delete(int id)
+    {
+        if (id < 0)
+        {
+            return new BadRequestObjectResult("Id index cannot be negative.");
+        }
+
+        try
+        {
+            var searchResult = await _dbContext.Lines!.FindAsync(id);
+
+            if (searchResult is null)
+            {
+                return new BadRequestObjectResult($"Could not find line with id {id}.");
+            }
+
+            _ = _dbContext.Lines.Remove(searchResult);
+            _ = await _dbContext.SaveChangesAsync();
+
+            return new OkObjectResult(searchResult);
+        }
+        catch (Exception e)
+        {
+            await Console.Out.WriteLineAsync($"Exception occured when removing line. Error message: {e.Message}");
+        }
+
+        return new BadRequestObjectResult("Could not remove line. Check logs.");
+    }
 }
