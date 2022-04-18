@@ -1,5 +1,6 @@
 ﻿using System.Globalization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using PublicTransportAPI.Data;
 using PublicTransportAPI.Data.DTOs;
 using PublicTransportAPI.Data.Models;
@@ -72,7 +73,8 @@ public class StopPointLineEventController
         }
         catch (Exception e)
         {
-            await Console.Out.WriteLineAsync($"Exception occured during stop point line event addition. Error message: {e.Message}");
+            await Console.Out.WriteLineAsync(
+                $"Exception occured during stop point line event addition. Error message: {e.Message}");
         }
 
         return new BadRequestObjectResult("Could not add stop point line event. Check logs.");
@@ -88,7 +90,8 @@ public class StopPointLineEventController
 
         try
         {
-            var searchResult = await _dbContext.StopPointLineEvents!.FindAsync(id);
+            var searchResult = await _dbContext.StopPointLineEvents!.Include(model => model.Line)
+                .Include(model => model.StopPoint).FirstOrDefaultAsync(stopPointEvent => stopPointEvent.Id.Equals(id));
 
             if (searchResult is null)
             {
@@ -102,7 +105,8 @@ public class StopPointLineEventController
         }
         catch (Exception e)
         {
-            await Console.Out.WriteLineAsync($"Exception occured during stop point line event removal. Error message: {e.Message}");
+            await Console.Out.WriteLineAsync(
+                $"Exception occured during stop point line event removal. Error message: {e.Message}");
         }
 
         return new BadRequestObjectResult("Could not delete stop point line event. Check logs.");
