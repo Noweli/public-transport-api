@@ -11,4 +11,5 @@ public class ApplicationDbContext : DbContext
     
     public DbSet<StopPoint>? StopPoints { get; set; }
     public DbSet<Line>? Lines { get; set; }
+    public DbSet<StopPointLineEvent>? StopPointLineEvents { get; set; }
 }
