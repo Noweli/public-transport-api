@@ -96,5 +96,4 @@ public class StopPointController
 
         return new OkResult();
     }
-    
 }

@@ -70,4 +70,31 @@ public class LineController
 
         return new BadRequestObjectResult("Could not remove line. Check logs.");
     }
+
+    [HttpGet]
+    public async Task<ActionResult<Line>> GetLine(int id)
+    {
+        if (id < 0)
+        {
+            return new BadRequestObjectResult("Id index cannot be negative.");
+        }
+
+        try
+        {
+            var searchResult = await _dbContext.Lines!.FindAsync(id);
+
+            if (searchResult is null)
+            {
+                return new BadRequestObjectResult($"Could not find line with provided id - {id}.");
+            }
+
+            return new OkObjectResult(searchResult);
+        }
+        catch (Exception e)
+        {
+            await Console.Out.WriteLineAsync($"Exception occured during search for line. Error message: {e.Message}");
+        }
+
+        return new BadRequestObjectResult("Could not find line. Check logs.");
+    }
 }
