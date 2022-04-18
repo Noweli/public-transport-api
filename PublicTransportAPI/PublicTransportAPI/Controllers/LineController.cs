@@ -17,47 +17,29 @@ public class LineController
     }
 
     [HttpPut]
-    public async Task<ActionResult<Line>> Add([FromBody] LineDTO lineDTO)
+    public async Task<ActionResult<Line>> Add([FromBody] string name)
     {
-        if (string.IsNullOrWhiteSpace(lineDTO.LineIdentifier))
+        if (string.IsNullOrWhiteSpace(name))
         {
-            return new BadRequestObjectResult("Line identifier not provided.");
+            return new BadRequestObjectResult("Line identifier has to be provided.");
         }
-
-        Line addedLineResult;
 
         try
         {
-            var stopPointIds = Array.Empty<StopPoint>();
-
-            if (lineDTO.StopPointIds is not null && lineDTO.StopPointIds.Any())
-            {
-                var result = _dbContext.StopPoints!.Where(point => lineDTO.StopPointIds.Contains(point.Id));
-                
-                if (!result.Any())
-                {
-                    return new BadRequestObjectResult("Could not find line stops with selected ids.");
-                }
-
-                stopPointIds = result.ToArray();
-            }
-
             var resultAdded = await _dbContext.Lines!.AddAsync(new Line
             {
-                LineIdentifier = lineDTO.LineIdentifier,
-                StopPoints = stopPointIds
+                LineIdentifier = name,
             });
             _ = await _dbContext.SaveChangesAsync();
 
-            addedLineResult = resultAdded.Entity;
+            return new OkObjectResult(resultAdded.Entity);
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
-            throw;
+            await Console.Out.WriteLineAsync($"Error occured during line addition. Error message: {e.Message}");
         }
 
-        return new OkObjectResult(addedLineResult);
+        return new BadRequestObjectResult("Could not add line. Checks logs.");
     } 
     
 }
