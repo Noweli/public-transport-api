@@ -10,8 +10,8 @@ namespace PublicTransportAPI.Controllers;
 [Route("api/[controller]")]
 public class StopPointLineEventController
 {
-    private readonly ApplicationDbContext _dbContext;
     private const string ARRIVAL_DEPARTURE_VALID_FORMAT = "HH:mm:ss";
+    private readonly ApplicationDbContext _dbContext;
 
     public StopPointLineEventController(ApplicationDbContext dbContext)
     {
@@ -76,5 +76,35 @@ public class StopPointLineEventController
         }
 
         return new BadRequestObjectResult("Could not add stop point line event. Check logs.");
+    }
+
+    [HttpDelete]
+    public async Task<ActionResult<StopPointLineEvent>> Delete(int id)
+    {
+        if (id < 0)
+        {
+            return new BadRequestObjectResult("Id index cannot be negative.");
+        }
+
+        try
+        {
+            var searchResult = await _dbContext.StopPointLineEvents!.FindAsync(id);
+
+            if (searchResult is null)
+            {
+                return new BadRequestObjectResult($"Could not find stop point line event with id - {id}");
+            }
+
+            _ = _dbContext.StopPointLineEvents!.Remove(searchResult);
+            _ = await _dbContext.SaveChangesAsync();
+
+            return new OkObjectResult(searchResult);
+        }
+        catch (Exception e)
+        {
+            await Console.Out.WriteLineAsync($"Exception occured during stop point line event removal. Error message: {e.Message}");
+        }
+
+        return new BadRequestObjectResult("Could not delete stop point line event. Check logs.");
     }
 }
