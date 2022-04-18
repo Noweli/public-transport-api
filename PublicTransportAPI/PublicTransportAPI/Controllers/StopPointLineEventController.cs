@@ -111,4 +111,33 @@ public class StopPointLineEventController
 
         return new BadRequestObjectResult("Could not delete stop point line event. Check logs.");
     }
+
+    [HttpGet]
+    public async Task<ActionResult<StopPointLineEvent>> Get(int id)
+    {
+        if (id < 0)
+        {
+            return new BadRequestObjectResult("Id index cannot be negative.");
+        }
+
+        try
+        {
+            var searchResult = await _dbContext.StopPointLineEvents!.Include(model => model.Line)
+                .Include(model => model.StopPoint).FirstOrDefaultAsync(stopPointEvent => stopPointEvent.Id.Equals(id));
+
+            if (searchResult is null)
+            {
+                return new BadRequestObjectResult($"Could not find stop point line event with id - {id}");
+            }
+
+            return searchResult;
+        }
+        catch (Exception e)
+        {
+            await Console.Out.WriteLineAsync(
+                $"Exception occured during look up for stop point line event. Error message: {e.Message}");
+        }
+
+        return new BadRequestObjectResult("Could not find stop point line event. Check logs.");
+    }
 }
