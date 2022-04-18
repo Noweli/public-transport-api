@@ -1,5 +1,7 @@
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using PublicTransportAPI.Data;
+using PublicTransportAPI.Mapper;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -10,6 +12,7 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options => options.UseSqlite("datasource=database.sql"));
+builder.Services.AddAutoMapper(Assembly.GetAssembly(typeof(MappingProfile)));
 
 var app = builder.Build();
 
