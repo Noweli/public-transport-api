@@ -42,6 +42,11 @@ public class StopPointLineEventController
                 $"Departure format is invalid. Allowed format: {ARRIVAL_DEPARTURE_VALID_FORMAT}");
         }
 
+        if (departure < arrival)
+        {
+            return new BadRequestObjectResult("Departure occurs before arrival.");
+        }
+
         try
         {
             var searchResultLine = await _dbContext.Lines!.FindAsync(stopPointLineEventDTO.LineId);
@@ -69,7 +74,7 @@ public class StopPointLineEventController
             });
             _ = await _dbContext.SaveChangesAsync();
 
-            return new OkObjectResult(addResult.Entity);
+            return addResult.Entity;
         }
         catch (Exception e)
         {
@@ -101,7 +106,7 @@ public class StopPointLineEventController
             _ = _dbContext.StopPointLineEvents!.Remove(searchResult);
             _ = await _dbContext.SaveChangesAsync();
 
-            return new OkObjectResult(searchResult);
+            return searchResult;
         }
         catch (Exception e)
         {
