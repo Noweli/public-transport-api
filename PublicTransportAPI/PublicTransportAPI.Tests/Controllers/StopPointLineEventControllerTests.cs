@@ -22,12 +22,17 @@ public class StopPointLineEventControllerTests
     [SetUp]
     public void SetUp()
     {
-        var dbOptionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
-            .UseInMemoryDatabase("database");
-        _dbContext = new ApplicationDbContext(dbOptionsBuilder.Options);
+        PrepareDbContext("database");
         _stopPointLineEventController = new StopPointLineEventController(_dbContext);
 
         PrepareDatabaseRecord();
+    }
+
+    private void PrepareDbContext(string dbName)
+    {
+        var dbOptionsBuilder = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(dbName);
+        _dbContext = new ApplicationDbContext(dbOptionsBuilder.Options);
     }
 
     private void PrepareDatabaseRecord()
@@ -384,6 +389,20 @@ public class StopPointLineEventControllerTests
     {
         //Arrange
         _dbContext = null;
+        _stopPointLineEventController = new StopPointLineEventController(_dbContext!);
+        
+        //Act
+        var result = await _stopPointLineEventController!.Get();
+        
+        //Assert
+        result.Result.Should().BeOfType<BadRequestObjectResult>();
+    }
+    
+    [Test]
+    public async Task GetAllMethod_CollectionIsEmpty_ReturnBadRequest()
+    {
+        //Arrange
+        PrepareDbContext("database2");
         _stopPointLineEventController = new StopPointLineEventController(_dbContext!);
         
         //Act

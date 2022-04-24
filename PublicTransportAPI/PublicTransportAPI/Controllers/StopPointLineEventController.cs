@@ -169,4 +169,28 @@ public class StopPointLineEventController
 
         return new BadRequestObjectResult("Could not find stop point line events. Check logs.");
     }
+    
+    [HttpGet("line")]
+    public async Task<ActionResult<List<StopPointLineEvent>>> GetByLine(int lineId)
+    {
+        try
+        {
+            var searchResult = await _dbContext.StopPointLineEvents!.Include(model => model.Line)
+                .Include(model => model.StopPoint).Where(lineEvent => lineEvent.Line!.Id.Equals(lineId)).ToListAsync();
+
+            if (!searchResult.Any())
+            {
+                return new BadRequestObjectResult($"There are no stop point line events found in database for selected line.");
+            }
+
+            return searchResult;
+        }
+        catch (Exception e)
+        {
+            await Console.Out.WriteLineAsync(
+                $"Exception occured during look up for stop point line events for selected line. Error message: {e.Message}");
+        }
+
+        return new BadRequestObjectResult("Could not find stop point line events for selected line. Check logs.");
+    }
 }
