@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentAssertions;
@@ -376,5 +377,30 @@ public class StopPointLineEventControllerTests
         
         //Assert
         result.Result.Should().BeOfType<BadRequestObjectResult>();
+    }
+    
+    [Test]
+    public async Task GetAllMethod_DbContextIsNull_ReturnBadRequest()
+    {
+        //Arrange
+        _dbContext = null;
+        _stopPointLineEventController = new StopPointLineEventController(_dbContext!);
+        
+        //Act
+        var result = await _stopPointLineEventController!.Get();
+        
+        //Assert
+        result.Result.Should().BeOfType<BadRequestObjectResult>();
+    }
+    
+    [Test]
+    public async Task GetAllMethod_CorrectFlow_Success()
+    {
+        //Arrange
+        //Act
+        var result = await _stopPointLineEventController!.Get();
+        
+        //Assert
+        result.Value.Should().BeOfType<List<StopPointLineEvent>>();
     }
 }
