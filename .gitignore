@@ -1,0 +1,5 @@
+﻿/PublicTransportAPI/PublicTransportAPI/infrastructure/.terraform.lock.hcl
+/PublicTransportAPI/PublicTransportAPI/infrastructure/.terraform.tfstate.lock.info
+/PublicTransportAPI/PublicTransportAPI/infrastructure/terraform.tfstate
+/PublicTransportAPI/PublicTransportAPI/infrastructure/terraform.tfstate.backup
+/PublicTransportAPI/PublicTransportAPI/infrastructure/.terraform/providers/registry.terraform.io/hashicorp/aws/4.13.0/windows_386/terraform-provider-aws_v4.13.0_x5.exe
