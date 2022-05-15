@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PublicTransportAPI.Data;
 using PublicTransportAPI.Data.Models;
 
 namespace PublicTransportAPI.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class LineController
@@ -16,6 +18,7 @@ public class LineController
     }
 
     [HttpPut]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<Line>> Add([FromBody] string name)
     {
         if (string.IsNullOrWhiteSpace(name))
@@ -42,6 +45,7 @@ public class LineController
     }
 
     [HttpDelete]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult> Delete(int id)
     {
         if (id < 0)
@@ -72,6 +76,7 @@ public class LineController
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<ActionResult<Line>> GetLine(int id)
     {
         if (id < 0)
