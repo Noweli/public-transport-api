@@ -6,294 +6,460 @@
 	},
 	"item": [
 		{
-			"name": "Put NewPoint",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "\"test2\"",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "Auth",
+			"item": [
+				{
+					"name": "Register",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userName\": \"testUser2\",\r\n  \"password\": \"testPassword\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/api/auth/register",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"register"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{api_url}}/api/stoppoint",
-					"host": [
-						"{{api_url}}"
-					],
-					"path": [
-						"api",
-						"stoppoint"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get StopPoint",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{api_url}}/api/stoppoint?id=2",
-					"host": [
-						"{{api_url}}"
-					],
-					"path": [
-						"api",
-						"stoppoint"
-					],
-					"query": [
+				{
+					"name": "Login",
+					"event": [
 						{
-							"key": "id",
-							"value": "2"
+							"listen": "test",
+							"script": {
+								"exec": [
+									"var responseJson = pm.response.text();\r",
+									"pm.collectionVariables.set('api_key', responseJson);"
+								],
+								"type": "text/javascript"
+							}
 						}
-					]
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"userName\": \"testUser\",\r\n  \"password\": \"testPassword\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/api/auth/login",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"api",
+								"auth",
+								"login"
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "Detele StopPoint",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "StopPoint",
+			"item": [
+				{
+					"name": "Put NewPoint",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\"testPoint\"",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/api/stoppoint",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"api",
+								"stoppoint"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{api_url}}/api/stoppoint?id=5",
-					"host": [
-						"{{api_url}}"
-					],
-					"path": [
-						"api",
-						"stoppoint"
-					],
-					"query": [
-						{
-							"key": "id",
-							"value": "5"
+				{
+					"name": "Get StopPoint",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/api/stoppoint?id=1",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"api",
+								"stoppoint"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
 						}
-					]
+					},
+					"response": []
+				},
+				{
+					"name": "Detele StopPoint",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/api/stoppoint?id=5",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"api",
+								"stoppoint"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "5"
+								}
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "Add Line",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "\"5\"",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "Line",
+			"item": [
+				{
+					"name": "Add Line",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\"4\"",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/api/line",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"api",
+								"line"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{api_url}}/api/line",
-					"host": [
-						"{{api_url}}"
-					],
-					"path": [
-						"api",
-						"line"
-					]
+				{
+					"name": "Delete Line",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/api/line?id=2",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"api",
+								"line"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Line",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/api/line?id=1",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"api",
+								"line"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "1"
+								}
+							]
+						}
+					},
+					"response": []
 				}
-			},
-			"response": []
+			]
 		},
 		{
-			"name": "Delete Line",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
+			"name": "StopPointLineEvent",
+			"item": [
+				{
+					"name": "Add StopPointLineEvent",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"arrival\": \"06:09:01\",\r\n  \"departure\": \"06:09:30\",\r\n  \"lineId\": 3,\r\n  \"stopPointId\": 4\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/api/stoppointlineevent",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"api",
+								"stoppointlineevent"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{api_url}}/api/line?id=2",
-					"host": [
-						"{{api_url}}"
-					],
-					"path": [
-						"api",
-						"line"
-					],
-					"query": [
-						{
-							"key": "id",
-							"value": "2"
+				{
+					"name": "Delete StopPointLineEvent",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/api/stoppointlineevent?id=2",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"api",
+								"stoppointlineevent"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "2"
+								}
+							]
 						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get Line",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{api_url}}/api/line?id=1",
-					"host": [
-						"{{api_url}}"
-					],
-					"path": [
-						"api",
-						"line"
-					],
-					"query": [
-						{
-							"key": "id",
-							"value": "1"
+				{
+					"name": "Get StopPointLineEvent",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/api/stoppointlineevent?id=3",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"api",
+								"stoppointlineevent"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "3"
+								}
+							]
 						}
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Add StopPointLineEvent",
-			"request": {
-				"method": "PUT",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "{\r\n  \"arrival\": \"12:12:00\",\r\n  \"departure\": \"12:12:30\",\r\n  \"lineId\": 1,\r\n  \"stopPointId\": 2\r\n}",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{api_url}}/api/stoppointlineevent",
-					"host": [
-						"{{api_url}}"
-					],
-					"path": [
-						"api",
-						"stoppointlineevent"
-					]
-				}
-			},
-			"response": []
-		},
-		{
-			"name": "Delete StopPointLineEvent",
-			"request": {
-				"method": "DELETE",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
+				{
+					"name": "Get StopPointLineEvent FindAll",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/api/stoppointlineevent/findAll",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"api",
+								"stoppointlineevent",
+								"findAll"
+							]
 						}
-					}
+					},
+					"response": []
 				},
-				"url": {
-					"raw": "{{api_url}}/api/stoppointlineevent?id=2",
-					"host": [
-						"{{api_url}}"
-					],
-					"path": [
-						"api",
-						"stoppointlineevent"
-					],
-					"query": [
-						{
-							"key": "id",
-							"value": "2"
+				{
+					"name": "Get StopPointLineEvent FindByLine",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{api_url}}/api/stoppointlineevent/line?lineId=1",
+							"host": [
+								"{{api_url}}"
+							],
+							"path": [
+								"api",
+								"stoppointlineevent",
+								"line"
+							],
+							"query": [
+								{
+									"key": "lineId",
+									"value": "1"
+								}
+							]
 						}
-					]
+					},
+					"response": []
 				}
-			},
-			"response": []
-		},
-		{
-			"name": "Get StopPointLineEvent",
-			"protocolProfileBehavior": {
-				"disableBodyPruning": true
-			},
-			"request": {
-				"method": "GET",
-				"header": [],
-				"body": {
-					"mode": "raw",
-					"raw": "",
-					"options": {
-						"raw": {
-							"language": "json"
-						}
-					}
-				},
-				"url": {
-					"raw": "{{api_url}}/api/stoppointlineevent?id=3",
-					"host": [
-						"{{api_url}}"
-					],
-					"path": [
-						"api",
-						"stoppointlineevent"
-					],
-					"query": [
-						{
-							"key": "id",
-							"value": "3"
-						}
-					]
-				}
-			},
-			"response": []
+			]
 		}
 	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{api_key}}",
+				"type": "string"
+			}
+		]
+	},
 	"event": [
 		{
 			"listen": "prerequest",
@@ -319,6 +485,15 @@
 			"key": "api_url",
 			"value": "https://localhost:7181",
 			"type": "string"
+		},
+		{
+			"key": "api_port",
+			"value": "8080",
+			"type": "string"
+		},
+		{
+			"key": "api_key",
+			"value": ""
 		}
 	]
 }
