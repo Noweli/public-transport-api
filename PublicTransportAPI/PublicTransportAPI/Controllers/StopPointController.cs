@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using PublicTransportAPI.Data;
 using PublicTransportAPI.Data.Models;
 
 namespace PublicTransportAPI.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class StopPointController
@@ -16,6 +18,7 @@ public class StopPointController
     }
 
     [HttpPut]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult> Add([FromBody] string name)
     {
         if (string.IsNullOrWhiteSpace(name))
@@ -39,6 +42,7 @@ public class StopPointController
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<ActionResult<StopPoint>> GetPoint(int id)
     {
         if (id < 0)
@@ -66,6 +70,7 @@ public class StopPointController
     }
 
     [HttpDelete]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult> DeletePoint(int id)
     {
         if (id < 0)

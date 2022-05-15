@@ -1,4 +1,5 @@
 ﻿using System.Globalization;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using PublicTransportAPI.Data;
@@ -7,6 +8,7 @@ using PublicTransportAPI.Data.Models;
 
 namespace PublicTransportAPI.Controllers;
 
+[Authorize]
 [ApiController]
 [Route("api/[controller]")]
 public class StopPointLineEventController
@@ -20,6 +22,7 @@ public class StopPointLineEventController
     }
 
     [HttpPut]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<StopPointLineEvent>> Add([FromBody] StopPointLineEventDTO stopPointLineEventDTO)
     {
         if (stopPointLineEventDTO.Arrival is null || stopPointLineEventDTO.Departure is null)
@@ -86,6 +89,7 @@ public class StopPointLineEventController
     }
 
     [HttpDelete]
+    [Authorize(Roles = "Admin")]
     public async Task<ActionResult<StopPointLineEvent>> Delete(int id)
     {
         if (id < 0)
@@ -118,6 +122,7 @@ public class StopPointLineEventController
     }
 
     [HttpGet]
+    [AllowAnonymous]
     public async Task<ActionResult<StopPointLineEvent>> Get(int id)
     {
         if (id < 0)
@@ -146,6 +151,7 @@ public class StopPointLineEventController
         return new BadRequestObjectResult("Could not find stop point line event. Check logs.");
     }
     
+    [AllowAnonymous]
     [HttpGet("findAll")]
     public async Task<ActionResult<List<StopPointLineEvent>>> Get()
     {
@@ -170,6 +176,7 @@ public class StopPointLineEventController
         return new BadRequestObjectResult("Could not find stop point line events. Check logs.");
     }
     
+    [AllowAnonymous]
     [HttpGet("line")]
     public async Task<ActionResult<List<StopPointLineEvent>>> GetByLine(int lineId)
     {
