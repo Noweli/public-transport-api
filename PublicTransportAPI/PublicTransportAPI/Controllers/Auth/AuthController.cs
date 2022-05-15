@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 using PublicTransportAPI.Data;
 using PublicTransportAPI.Data.DTOs.Auth;
 using PublicTransportAPI.Data.Models.Auth;
+using PublicTransportAPI.Data.Models.Auth.Enums;
 using PublicTransportAPI.Helpers;
 
 namespace PublicTransportAPI.Controllers.Auth;
@@ -37,6 +38,7 @@ public class AuthController : ControllerBase
         registerUser.UserName = userDto.UserName;
         registerUser.PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(userDto.Password));
         registerUser.PasswordSalt = hmac.Key;
+        registerUser.Role = Role.User;
 
         try
         {
@@ -81,7 +83,7 @@ public class AuthController : ControllerBase
                 return new BadRequestObjectResult("Invalid data provided. Check username and password.");
             }
 
-            var token = AuthHelper.CreateToken(userDto, _configuration.GetSection("AuthConfiguration:Token").Value);
+            var token = AuthHelper.CreateToken(userDto, user.Role, _configuration.GetSection("AuthConfiguration:Token").Value);
             return new OkObjectResult(token);
 
         }
